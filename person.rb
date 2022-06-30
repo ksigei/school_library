@@ -1,3 +1,4 @@
+# Person
 class Person
   attr_accessor :name, :age, :id
   attr_reader :parent_permission
