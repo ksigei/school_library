@@ -1,4 +1,4 @@
-## Covid Tracker
+## School Library System
 
 ## Table of Contents
 
@@ -11,13 +11,10 @@
 
 ## About Project
 ## Screenshots
-![screenshot](./screenshots/screen1.png)
-![screenshot](./screenshots/screen2.png)
-![screenshot](./screenshots/screen3.png)
-Covid Tracker is site used to check covid updates.
-## [Live Demo](https://ncov-site.netlify.app/)
-## [Presentation](https://youtu.be/YaC8EksPYMc)
+![screenshot](./#)
 
+## School Library System is a commandline application that allows users to manage their school library.
+## [Live Demo coming soon](#)
 
 ## Built With
 
