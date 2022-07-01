@@ -8,9 +8,7 @@ class Classroom
     @students = []
   end
 
-  def students
-    @students
-  end
+  attr_reader :students
 
   def add_student(student)
     @students << student
@@ -18,7 +16,7 @@ class Classroom
   end
 end
 
-classroom = Classroom.new("A")
-student = Student.new("John")
+classroom = Classroom.new('A')
+student = Student.new('John')
 classroom.add_student(student)
 puts classroom.students.first.classroom.label

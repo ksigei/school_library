@@ -3,19 +3,12 @@ require_relative './person'
 
 class Rental
   attr_accessor :date
+  attr_reader :book, :person
 
   def initialize(date)
     @date = date
     @book = nil
     @person = nil
-  end
-
-  def book
-    @book
-  end
-
-  def person
-    @person
   end
 
   def book=(book)
