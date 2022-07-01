@@ -1,6 +1,6 @@
 require_relative './nameable'
 require_relative './capitalize'
-require_relative './decorator'
+require_relative './rental'
 require_relative './trimmer'
 
 class Person < Nameable
@@ -12,6 +12,7 @@ class Person < Nameable
     @age = age
     @parent_permission = parent_permission
     @id = rand(1..1000)
+    @rentals = []
     super()
   end
 
@@ -29,6 +30,14 @@ class Person < Nameable
 
   def correct_name
     @name
+  end
+
+  def rentals
+    @rentals
+  end
+
+  def add_rental(rental)
+    @rentals << rental
   end
 end
 
