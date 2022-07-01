@@ -6,7 +6,7 @@ class Book
   def initialize(title, author)
     @title = title
     @author = author
-  end 
+  end
 
   def add_rental(person, date)
     Rental.new(date, self, person)
