@@ -12,17 +12,3 @@ class Teacher < Person
     true
   end
 end
-
-# new teacher
-teacher = Teacher.new('John', 18, 'Math', parent_permission: true)
-# check teacher
-puts teacher.name
-# check teacher
-puts teacher.age
-teacher.specialization = 'Math'
-# check teacher
-puts teacher.specialization
-# check teacher
-puts teacher.can_use_services?
-# check teacher
-puts teacher.of_age?
