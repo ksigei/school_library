@@ -24,9 +24,10 @@ class App
   end
 
   def create_person(name, type)
-    if type == 'teacher'
+    case type
+    when 'teacher'
       @people << Teacher.new(name)
-    elsif type == 'student'
+    when 'student'
       @people << Student.new(name)
     end
   end
@@ -41,9 +42,7 @@ class App
 
   def list_rentals(person_id)
     @rentals.each do |rental|
-      if rental.person.id == person_id
-        puts rental.date
-      end
+      puts rental.date if rental.person.id == person_id
     end
   end
 end
