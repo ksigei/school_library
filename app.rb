@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 require 'json'
 require './classroom'
 require './person'
@@ -194,3 +195,4 @@ def main
 end
 
 main
+# rubocop:enable Metrics/ClassLength
