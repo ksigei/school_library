@@ -1,7 +1,6 @@
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
-
 require_relative 'app'
 
 def main
@@ -34,7 +33,7 @@ def main
     main
   when '4'
     puts 'What is the title of the book?'
-    print '> ' # This is a string interpolation, it will print the string and then the variable.
+    print '> '
     title = gets.chomp
     app.create_book(title)
     main

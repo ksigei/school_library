@@ -1,49 +1,12 @@
+# rubocop:disable Metrics/ClassLength
+require 'json'
 require './classroom'
 require './person'
 require './teacher'
 require './student'
 require './book'
 require './rental'
-
-module Utils
-  def self.print_prompt
-    puts '
-            Please choose an option by entering a number:
-            1 | List all books
-            2 | List all people
-            3 | Create a person
-            4 | Create a book
-            5 | Create a rental
-            6 | List all rentals for a given person id
-            7 | Exit'
-    puts ''
-    puts 'Select an option: '
-  end
-
-  def self.read_name
-    print 'Name: '
-    name = gets.chomp
-    name.empty? ? read_name : name
-  end
-
-  def self.read_age
-    print 'Age: '
-    age = gets.chomp.to_i
-    (1..1000).include?(age) ? age : read_age
-  end
-
-  def self.read_permission
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
-    %w[Y N].include?(permission.capitalize) ? permission.capitalize : read_permission
-  end
-
-  def self.read_specialization
-    print 'Specialization: '
-    specialization = gets.chomp
-    specialization.empty? ? read_specialization : specialization
-  end
-end
+require './utils'
 
 class App
   attr_accessor :user_input
@@ -62,25 +25,37 @@ class App
     arr.include?(user_input)
   end
 
+  # def student_info
+  #   age = Utils.read_age
+  #   name = Utils.read_name
+  #   has_parent_permission = Utils.read_permission == 'Y'
+  #   [age, name, has_parent_permission]
+  # end
+  # student_info and load data from person.json file.
   def student_info
-    age = Utils.read_age
-    name = Utils.read_name
-    has_parent_permission = Utils.read_permission == 'Y'
-    [age, name, has_parent_permission]
+    person_data = JSON.parse(File.read('./data/person.json'))
+    person_data.each do |person|
+      @people << Student.new(person['age'], person['name'], person['parent_permission'])
+    end
   end
 
+  # def teacher_info
+  #   age = Utils.read_age
+  #   name = Utils.read_name
+  #   specialization = Utils.read_specialization
+  #   [age, name, specialization]
+  # end
+  # teacher info and load data from person.json file.
   def teacher_info
-    age = Utils.read_age
-    name = Utils.read_name
-    specialization = Utils.read_specialization
-    [age, name, specialization]
+    person_data = JSON.parse(File.read('./data/person.json'))
+    person_data.each do |person|
+      @people << Teacher.new(person['age'], person['name'], person['specialization'])
+    end
   end
-
   def create_person
     print "\nDo you want to create a student (1) or a teacher (2)? [Input the number]: "
     @user_input = gets.chomp
-    create_person unless user_input_valid?(user_input, %w[1 2])
-
+    create_person unless user_input_valid?(@user_input, %w[1 2])
     if @user_input == '1'
       age, name, has_parent_permission = student_info
       person = Student.new(age, @default_classroom, name, parent_permission: has_parent_permission)
@@ -88,8 +63,10 @@ class App
       age, name, specialization = teacher_info
       person = Teacher.new(age, specialization, name)
     end
-
     @people << person
+    File.open('./data/people.json', 'a') do |file|
+      file.puts person.to_json
+    end
     puts 'Person created successfully'
   end
 
@@ -110,18 +87,40 @@ class App
     author = read_author
     book = Book.new(title, author)
     @books << book
+    File.open('./data/books.json', 'a') do |file|
+      file.puts book.to_json
+    end
     puts 'Book created successfully'
   end
 
+  # def list_all_books
+  #   @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: \"#{book.author}\"" }
+  # end
+  # list_all_books and load data from books.json file.
   def list_all_books
-    @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: \"#{book.author}\"" }
-  end
-
-  def list_all_people
-    @people.each_with_index do |person, index|
-      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    book_data = JSON.parse(File.read('./data/books.json'))
+    book_data.each do |book|
+      @books << Book.new(book['title'], book['author'])
     end
   end
+
+  # def list_all_people
+  #   @people.each_with_index do |person, index|
+  #     puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+  #   end
+  # end
+  # list_all_people and load data from people.json file.
+  def list_all_people
+    person_data = JSON.parse(File.read('./data/people.json'))
+    person_data.each do |person|
+      if person['class'] == 'Student'
+        @people << Student.new(person['age'], person['name'], person['parent_permission'])
+      else
+        @people << Teacher.new(person['age'], person['name'], person['specialization'])
+      end
+    end
+  end
+
 
   def read_desired_book
     puts "\nSelect a book from the following list by number"
@@ -153,6 +152,9 @@ class App
     rental = Rental.new(date, person, book)
 
     @rentals << rental
+    File.open('./data/rentals.json', 'a') do |file|
+      file.puts rental.to_json
+    end
     puts 'Rental created successfully'
   end
 
@@ -184,7 +186,21 @@ class App
       end
     end
   end
+  # list_all_rentals_for_id and load data from rentals.json file.
 
+
+
+  # def display_for_user(user_input)
+  #   case user_input
+  #   when '1'
+  #     list_all_books
+  #   when '2'
+  #     list_all_people
+  #   when '6'
+  #     list_all_rentals_for_id
+  #   end
+  # end
+  # display_for_user and load data from people.json file.
   def display_for_user(user_input)
     case user_input
     when '1'
@@ -195,6 +211,7 @@ class App
       list_all_rentals_for_id
     end
   end
+
 
   def run
     loop do
@@ -225,3 +242,4 @@ def main
 end
 
 main
+# rubocop:enable Metrics/ClassLength
