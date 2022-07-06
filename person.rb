@@ -31,14 +31,13 @@ class Person < Nameable
     @rentals.push(rental) unless @rentals.include?(rental)
     rental.person = self
   end
-#   def to_json
-#     {
-#       id: @id,
-#       name: @name,
-#       age: @age,
-#       parent_permission: @parent_permission,
-#       rentals: @rentals
-#     }.to_json
-#   end
+  #   def to_json
+  #     {
+  #       id: @id,
+  #       name: @name,
+  #       age: @age,
+  #       parent_permission: @parent_permission,
+  #       rentals: @rentals
+  #     }.to_json
+  #   end
 end
-

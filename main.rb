@@ -33,7 +33,7 @@ def main
     main
   when '4'
     puts 'What is the title of the book?'
-    print '> ' # This is a string interpolation, it will print the string and then the variable.
+    print '> '
     title = gets.chomp
     app.create_book(title)
     main
@@ -65,5 +65,3 @@ end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
-
-
