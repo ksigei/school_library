@@ -4,8 +4,7 @@ require_relative './rental'
 require_relative './trimmer'
 
 class Person < Nameable
-  attr_accessor :name, :age
-  attr_reader :id, :rentals
+  attr_accessor :name, :age, :id, :rentals
 
   def initialize(age, name = 'Unknown', parent_permission: true)
     super()
@@ -32,4 +31,14 @@ class Person < Nameable
     @rentals.push(rental) unless @rentals.include?(rental)
     rental.person = self
   end
+#   def to_json
+#     {
+#       id: @id,
+#       name: @name,
+#       age: @age,
+#       parent_permission: @parent_permission,
+#       rentals: @rentals
+#     }.to_json
+#   end
 end
+

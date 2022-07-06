@@ -1,7 +1,6 @@
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/AbcSize
-
 require_relative 'app'
 
 def main
@@ -66,3 +65,5 @@ end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/MethodLength
 # rubocop:enable Metrics/AbcSize
+
+

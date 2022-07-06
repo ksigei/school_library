@@ -1,49 +1,12 @@
+require 'json'
 require './classroom'
 require './person'
 require './teacher'
 require './student'
 require './book'
 require './rental'
+require './utils'
 
-module Utils
-  def self.print_prompt
-    puts '
-            Please choose an option by entering a number:
-            1 | List all books
-            2 | List all people
-            3 | Create a person
-            4 | Create a book
-            5 | Create a rental
-            6 | List all rentals for a given person id
-            7 | Exit'
-    puts ''
-    puts 'Select an option: '
-  end
-
-  def self.read_name
-    print 'Name: '
-    name = gets.chomp
-    name.empty? ? read_name : name
-  end
-
-  def self.read_age
-    print 'Age: '
-    age = gets.chomp.to_i
-    (1..1000).include?(age) ? age : read_age
-  end
-
-  def self.read_permission
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
-    %w[Y N].include?(permission.capitalize) ? permission.capitalize : read_permission
-  end
-
-  def self.read_specialization
-    print 'Specialization: '
-    specialization = gets.chomp
-    specialization.empty? ? read_specialization : specialization
-  end
-end
 
 class App
   attr_accessor :user_input
@@ -76,11 +39,29 @@ class App
     [age, name, specialization]
   end
 
+  # def create_person
+  #   print "\nDo you want to create a student (1) or a teacher (2)? [Input the number]: "
+  #   @user_input = gets.chomp
+  #   create_person unless user_input_valid?(user_input, %w[1 2])
+
+  #   if @user_input == '1'
+  #     age, name, has_parent_permission = student_info
+  #     person = Student.new(age, @default_classroom, name, parent_permission: has_parent_permission)
+  #   else
+  #     age, name, specialization = teacher_info
+  #     person = Teacher.new(age, specialization, name)
+  #   end
+
+  #   @people << person
+  #   puts 'Person created successfully'
+  # end
+
+  # method create_person is called in initialize method and is used to create a person object and add it to the people array variable which is used to store all the people objects created in ./data/person.json files.
   def create_person
     print "\nDo you want to create a student (1) or a teacher (2)? [Input the number]: "
     @user_input = gets.chomp
-    create_person unless user_input_valid?(user_input, %w[1 2])
-
+    create_person unless user_input_valid?(@user_input, %w[1 2])
+    # add person to json file
     if @user_input == '1'
       age, name, has_parent_permission = student_info
       person = Student.new(age, @default_classroom, name, parent_permission: has_parent_permission)
@@ -88,8 +69,10 @@ class App
       age, name, specialization = teacher_info
       person = Teacher.new(age, specialization, name)
     end
-
     @people << person
+    File.open("./data/people.json", "a") do |file|
+      file.puts person.to_json
+    end
     puts 'Person created successfully'
   end
 
