@@ -50,7 +50,7 @@ class App
       person = Teacher.new(age, specialization, name)
     end
     @people << person
-    File.open("./data/people.json", "a") do |file|
+    File.open('./data/people.json', 'a') do |file|
       file.puts person.to_json
     end
     puts 'Person created successfully'
@@ -73,7 +73,7 @@ class App
     author = read_author
     book = Book.new(title, author)
     @books << book
-    File.open("./data/books.json", "a") do |file|
+    File.open('./data/books.json', 'a') do |file|
       file.puts book.to_json
     end
     puts 'Book created successfully'
@@ -119,7 +119,7 @@ class App
     rental = Rental.new(date, person, book)
 
     @rentals << rental
-    File.open("./data/rentals.json", "a") do |file|
+    File.open('./data/rentals.json', 'a') do |file|
       file.puts rental.to_json
     end
     puts 'Rental created successfully'
