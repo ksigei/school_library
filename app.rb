@@ -93,6 +93,9 @@ class App
     author = read_author
     book = Book.new(title, author)
     @books << book
+    File.open("./data/books.json", "a") do |file|
+      file.puts book.to_json
+    end
     puts 'Book created successfully'
   end
 
@@ -136,6 +139,9 @@ class App
     rental = Rental.new(date, person, book)
 
     @rentals << rental
+    File.open("./data/rentals.json", "a") do |file|
+      file.puts rental.to_json
+    end
     puts 'Rental created successfully'
   end
 
