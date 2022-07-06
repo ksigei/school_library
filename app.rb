@@ -25,20 +25,33 @@ class App
     arr.include?(user_input)
   end
 
+  # def student_info
+  #   age = Utils.read_age
+  #   name = Utils.read_name
+  #   has_parent_permission = Utils.read_permission == 'Y'
+  #   [age, name, has_parent_permission]
+  # end
+  # student_info and load data from person.json file.
   def student_info
-    age = Utils.read_age
-    name = Utils.read_name
-    has_parent_permission = Utils.read_permission == 'Y'
-    [age, name, has_parent_permission]
+    person_data = JSON.parse(File.read('./data/person.json'))
+    person_data.each do |person|
+      @people << Student.new(person['age'], person['name'], person['parent_permission'])
+    end
   end
 
+  # def teacher_info
+  #   age = Utils.read_age
+  #   name = Utils.read_name
+  #   specialization = Utils.read_specialization
+  #   [age, name, specialization]
+  # end
+  # teacher info and load data from person.json file.
   def teacher_info
-    age = Utils.read_age
-    name = Utils.read_name
-    specialization = Utils.read_specialization
-    [age, name, specialization]
+    person_data = JSON.parse(File.read('./data/person.json'))
+    person_data.each do |person|
+      @people << Teacher.new(person['age'], person['name'], person['specialization'])
+    end
   end
-
   def create_person
     print "\nDo you want to create a student (1) or a teacher (2)? [Input the number]: "
     @user_input = gets.chomp
@@ -80,15 +93,34 @@ class App
     puts 'Book created successfully'
   end
 
+  # def list_all_books
+  #   @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: \"#{book.author}\"" }
+  # end
+  # list_all_books and load data from books.json file.
   def list_all_books
-    @books.each_with_index { |book, index| puts "#{index}) Title: \"#{book.title}\", Author: \"#{book.author}\"" }
-  end
-
-  def list_all_people
-    @people.each_with_index do |person, index|
-      puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    book_data = JSON.parse(File.read('./data/books.json'))
+    book_data.each do |book|
+      @books << Book.new(book['title'], book['author'])
     end
   end
+
+  # def list_all_people
+  #   @people.each_with_index do |person, index|
+  #     puts "#{index}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+  #   end
+  # end
+  # list_all_people and load data from people.json file.
+  def list_all_people
+    person_data = JSON.parse(File.read('./data/people.json'))
+    person_data.each do |person|
+      if person['class'] == 'Student'
+        @people << Student.new(person['age'], person['name'], person['parent_permission'])
+      else
+        @people << Teacher.new(person['age'], person['name'], person['specialization'])
+      end
+    end
+  end
+
 
   def read_desired_book
     puts "\nSelect a book from the following list by number"
@@ -154,7 +186,21 @@ class App
       end
     end
   end
+  # list_all_rentals_for_id and load data from rentals.json file.
 
+
+
+  # def display_for_user(user_input)
+  #   case user_input
+  #   when '1'
+  #     list_all_books
+  #   when '2'
+  #     list_all_people
+  #   when '6'
+  #     list_all_rentals_for_id
+  #   end
+  # end
+  # display_for_user and load data from people.json file.
   def display_for_user(user_input)
     case user_input
     when '1'
@@ -165,6 +211,7 @@ class App
       list_all_rentals_for_id
     end
   end
+
 
   def run
     loop do
